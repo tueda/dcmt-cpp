@@ -1,0 +1,27 @@
+# cppcoreguidelines-avoid-magic-numbers, readability-magic-numbers
+#   The algorithms contain some fixed magic numbers. Replacing them by named
+#   constants (maybe defined in different places) could spoil the readability.
+# cppcoreguidelines-pro-bounds-pointer-arithmetic
+#   It would be nice provided std::span<T> is available.
+# modernize-use-trailing-return-type
+#   This check aggressively tries to change even the (legitimate) main function,
+#   which in this case is purely stylistic.
+Checks: >-
+  -*,
+  bugprone-*,
+  cert-*,
+  clang-analyzer-*,
+  clang-diagnostic-*,
+  cppcoreguidelines-*,
+  google-*,
+  misc-*,
+  modernize-*,
+  performance-*,
+  portability-*,
+  readability-*,
+  -cppcoreguidelines-avoid-magic-numbers,
+  -cppcoreguidelines-pro-bounds-pointer-arithmetic,
+  -modernize-use-trailing-return-type,
+  -readability-magic-numbers,
+HeaderFilterRegex: /include/dcmt/
+WarningsAsErrors: '*'

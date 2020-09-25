@@ -1,0 +1,26 @@
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.2.0
+    hooks:
+    -   id: check-case-conflict
+    -   id: check-merge-conflict
+    -   id: check-symlinks
+    -   id: check-yaml
+    -   id: end-of-file-fixer
+    -   id: trailing-whitespace
+-   repo: https://github.com/cheshirekow/cmake-format-precommit
+    rev: v0.6.13
+    hooks:
+    -   id: cmake-format
+        additional_dependencies: [pyyaml==5.3.1]
+    -   id: cmake-lint
+        additional_dependencies: [pyyaml==5.3.1]
+-   repo: https://github.com/bmorcos/pre-commit-hooks-cpp
+    rev: 9a5aa38207bf557961110d6a4f7e3a9d352911f9
+    hooks:
+    -   id: clang-format
+        args: ["--style=file"]
+-   repo: https://github.com/jorisroovers/gitlint
+    rev: v0.13.1
+    hooks:
+    -   id: gitlint
