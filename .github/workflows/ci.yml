@@ -1,0 +1,89 @@
+name: CI
+
+on: [push, pull_request]
+
+env:
+  CTEST_OUTPUT_ON_FAILURE: ON
+  CTEST_PARALLEL_LEVEL: 2
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+      - name: Install dependencies
+        run: pip install gitlint pre-commit
+      - name: Run linters
+        run: |
+          gitlint
+          pre-commit run --all-files
+# static-code-analysis:
+#   runs-on: ubuntu-latest
+#   steps:
+#     - uses: actions/checkout@v2
+#     - name: Install dependencies
+#       run: sudo apt-get install -y clang-tidy
+#     - uses: lukka/run-cmake@v3
+#       with:
+#         cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
+#         cmakeAppendedArgs: -DCMAKE_BUILD_TYPE=Debug -DBUILD_DOCUMENTS=OFF -DUSE_CLANG_TIDY=ON
+#         buildWithCMakeArgs: --config Debug --target check
+  doc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: sudo apt-get install -y doxygen
+      - uses: lukka/run-cmake@v3
+        with:
+          cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
+          cmakeAppendedArgs: -DBUILD_TESTING=OFF
+          buildWithCMakeArgs: --target doc
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: lukka/run-cmake@v3
+        with:
+          cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
+          cmakeAppendedArgs: -DCMAKE_BUILD_TYPE=Debug -DBUILD_DOCUMENTS=OFF -DUSE_CODE_COVERAGE=ON
+          buildDirectory: _temp
+          buildWithCMakeArgs: --config Debug --target check
+      - uses: codecov/codecov-action@v1
+        with:
+          fail_ci_if_error: true
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            compiler: g++
+            cmake_options: -DUSE_SANITIZER=ON
+          - os: ubuntu-latest
+            compiler: clang++
+            cmake_options: -DUSE_SANITIZER=ON
+#         - os: windows-latest
+#           compiler: cl
+    runs-on: ${{ matrix.os }}
+    env:
+      CXX: ${{ matrix.compiler }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: lukka/run-cmake@v3
+        with:
+          cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
+          cmakeAppendedArgs: -DCMAKE_BUILD_TYPE=Debug -DBUILD_DOCUMENTS=OFF ${{ matrix.cmake_options }}
+          buildWithCMakeArgs: --config Debug --target check
+  bench:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: lukka/run-cmake@v3
+        with:
+          cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
+          cmakeAppendedArgs: -DCMAKE_BUILD_TYPE=Release -DBUILD_DOCUMENTS=OFF -DBUILD_BENCHMARKING=ON
+          buildWithCMakeArgs: --config Release --target check bench
+        env:
+          NANOBENCH_SUPPRESS_WARNINGS: 1
