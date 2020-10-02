@@ -1,6 +1,10 @@
 dcmt-cpp
 ========
 
+[![CI](https://github.com/tueda/dcmt-cpp/workflows/CI/badge.svg?branch=master)](https://github.com/tueda/dcmt-cpp/actions?query=branch:master)
+[![Documentation Status](https://readthedocs.org/projects/dcmt-cpp/badge/?version=latest)](https://dcmt-cpp.readthedocs.io/en/latest/?badge=latest)
+[![Codecov](https://codecov.io/gh/tueda/dcmt-cpp/branch/master/graph/badge.svg)](https://codecov.io/gh/tueda/dcmt-cpp/branch/master)
+
 A C++11 wrapper library for
 [Dynamic Creator of Mersenne Twisters](https://github.com/MersenneTwister-Lab/dcmt).
 
