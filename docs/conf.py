@@ -33,7 +33,7 @@ except ImportError:
 project = "dcmt-cpp"
 copyright = "2020, Takahiro Ueda"  # noqa: A001
 author = "Takahiro Ueda"
-version = "0.0.1"
+version = "1.0.0"
 release = version
 
 # -- General configuration ---------------------------------------------------

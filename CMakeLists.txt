@@ -10,7 +10,7 @@ endif()
 
 project(
   dcmt-cpp
-  VERSION 0.0.1
+  VERSION 1.0.0
   LANGUAGES CXX)
 
 # CPM (https://github.com/TheLartians/CPM.cmake).
