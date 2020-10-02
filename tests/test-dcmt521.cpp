@@ -9,12 +9,7 @@
 
 using dcmt::dcmt521;
 using std::array;
-using std::cout;
-using std::endl;
 using std::generate;
-using std::hex;
-using std::setw;
-using std::size_t;
 using std::stringstream;
 
 const int n = 100;
